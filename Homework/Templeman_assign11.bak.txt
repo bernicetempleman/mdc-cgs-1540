@@ -1,0 +1,181 @@
+﻿--Programmer: Bernice Templeman
+--Assignment 11
+--
+--Solve Problem 17 from Chapter 12 on Pages 632-633 in the textbook. All questions
+--You will need to use the INTERNSHIP database to solve the problem.
+--The database is in the WDBMS server we use in class.
+--Attached you can find the database schema for the INTERNSHIP database.
+
+select * from INTERNSHIP
+select * from  company
+select * from STUDENT
+
+USE [INTERNSHIP]
+GO
+
+--a. Display the total monthly stipend received by each student
+SELECT in_st_name, in_stipend
+	FROM INTERNSHIP;
+
+--b. For each internship, 
+--display the year and quarter offered, 
+--headquarters of the company offering the internship, 
+--and location of the internship.
+
+SELECT in_year, in_quarter, company.co_headquarters, INTERNSHIP.in_location
+	FROM INTERNSHIP 
+	INNER JOIN COMPANY
+	ON INTERNSHIP.in_co_name = COMPANY.co_name;
+
+--c. Display the names of all the students who have not participated in an internship
+SELECT s.st_name
+	FROM STUDENT s
+	LEFT OUTER JOIN INTERNSHIP i
+	ON s.st_name = i.in_st_name
+	WHERE i.in_stipend IS NULL;
+
+--d. Display the number of internships offered 
+-- for each year
+-- quarter
+-- and internship location
+SELECT i.in_year, i.in_quarter, i.in_location,  Count(*) AS 'count'
+	FROM INTERNSHIP i
+GROUP BY i.in_year,i.in_quarter,i.in_location;
+
+
+--e. Use pattern matching to display the names 
+--   of those students whose name begins with an uppercase A
+--   and ends with some letter other than a lowercase a
+SELECT s.st_name
+	FROM STUDENT s
+	WHERE s.st_name LIKE 'A%[^a]';
+
+--f. Use a Natural Join to display
+-- the name
+--major
+--status
+--of those students with an internship in the same city where the company is headquartered
+SELECT s.st_name, s.st_major, s.st_status
+	FROM STUDENT s
+	INNER JOIN  INTERNSHIP i
+	ON s.st_name = i.in_st_name
+	INNER JOIN COMPANY c
+	ON c.co_headquarters = i.in_location
+	
+
+--g. Use a subquery to display 
+--    the name
+--    major
+--    status
+-- of those students with an internship in the same city where the company is headquartered
+SELECT s.st_name, s.st_major, s.st_status
+	FROM STUDENT s
+	WHERE s.st_name IN 
+	( select i.in_st_name
+	from INTERNSHIP i
+	where  i.in_location IN 
+	(select c.co_headquarters 
+	from COMPANY c))
+
+--h. Display the difference between the average stipend offered by Company A
+--and the average stipend offered by all other companies, excluding Company A
+
+SELECT  AVG(A_AVG_salary - avg_salary) as AVG_disparity
+FROM(SELECT 
+	(select AVG(i.in_stipend)  FROM INTERNSHIP i WHERE i.in_co_name = 'A') AS A_AVG_salary,
+	(select AVG(i.in_stipend)  FROM INTERNSHIP i WHERE i.in_co_name LIKE '^A' AND IS NOT NULL(i.in_stipend ) AS avg_salary
+	
+FROM INTERNSHIP i) AS M
+
+
+SELECT i.in_co_name, i.in_stipend
+	FROM INTERNSHIP i
+	--WHERE i.in_co_name LIKE '^A'
+
+--i. Use a Left Outer Jpion to Display the total monthly stipend received by each student,
+--including those students who have not participated in an internship
+-- What, if anything, makes you uncomfortable about the result obtained
+SELECT
+	FROM
+
+--j. Use a Union to display the total monthly stipend received by each student,
+-- including those students who have not participated in an internship
+SELECT
+	FROM
+
+--************************************************************************
+
+=================================
+--Programmer: Bernice Templeman
+--Assignment 11
+--
+--Solve Problem 17 from Chapter 12 on Pages 632-633 in the textbook. All questions
+--You will need to use the INTERNSHIP database to solve the problem.
+--The database is in the WDBMS server we use in class.
+--Attached you can find the database schema for the INTERNSHIP database.
+
+--select * from INTERNSHIP
+--select * from  company
+--select * from STUDENT
+
+USE [INTERNSHIP]
+GO
+
+--a. Display the total monthly stipend received by each student
+SELECT in_st_name, in_stipend
+FROM INTERNSHIP
+
+
+
+--b. For each internship, 
+--display the year and quarter offered, 
+--headquarters of the company offering the internship, 
+--and location of the internship.
+
+SELECT in_year, in_quarter, company.co_headquarters, INTERNSHIP.in_location
+FROM INTERNSHIP INNER JOIN COMPANY
+ON INTERNSHIP.in_co_name = COMPANY.co_name
+
+
+--c. Display the names pf all the students who have not participated in an internship
+SELECT
+FROM STUDENT
+
+--d. Display the number of internships offered 
+-- for each year
+-- quarter
+-- and internship location
+
+
+--e. Use pattern matching to display the names 
+--of those students whose name begins with an uppercase A
+-- and ends with some letter other than a lowercase a
+
+
+--f. Use a Natural Join to display
+-- the name
+--major
+--status
+--of those students with an internship in the same city where the company is headquartered
+
+
+--g. Use a subquery to display 
+--the name
+--major
+-- status
+-- of those students with an internship in the same city where the company is headquartered
+
+
+--h. Display the difference between the average stipend offered by Company A
+--and the average stipend offered by all other companies, excluding Company A
+
+
+--i. Use a Left Outer Jpion to Display the total monthly stipend received by each student,
+--including those students who have not participated in an internship
+-- What, if anything, makes you uncomfortable about the result obtained
+
+
+--j. Use a Union to display the total monthly stipend received by each student,
+-- including those students who have not participated in an internship
+
+--************************************************************************
